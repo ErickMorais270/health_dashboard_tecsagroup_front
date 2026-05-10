@@ -47,6 +47,18 @@ No painel Render: **New +** → **Static Site**. No monorepo, defina **Root Dire
 
 **Roteamento (SPA):** o app usa navegação no cliente. No serviço estático, abra **Redirects / Rewrites** e adicione uma regra **Rewrite**: origem `/*` → destino `/index.html` → **Rewrite** (ou equivalente na UI), para refreshes diretos não retornarem 404. Opcionalmente o build copia também `public/_redirects` (formato tipo Netlify) para `dist/`, caso a hospedagem a utilize.
 
+### Chamada ao backend
+
+O Axios usa **`EXPO_PUBLIC_API_URL`** como `baseURL` (`src/services/api/http.ts`). Em produção deve ser a URL **HTTPS** do Laravel **com** `/api`, por exemplo: `https://health-dashboard-tecsagroup-back.onrender.com/api`.
+
+### Testar no navegador (Chrome)
+
+1. Abra o front em produção e **F12** → aba **Network**.
+2. Tente **Cadastrar** e localize a requisição para `…/api/register`.
+3. **404** → `EXPO_PUBLIC_API_URL` errada ou faltando `/api` no path.
+4. **CORS / bloqueado** → no Laravel, defina `CORS_ALLOWED_ORIGINS` com a origem exata do front (`config/cors.php`; ver README do backend).
+5. **Para localhost / falha de rede** → o bundle ainda foi gerado sem `EXPO_PUBLIC_API_URL` no Render; ajuste a env do Static Site e faça **novo deploy**.
+
 ## Comandos
 
 ```bash
