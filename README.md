@@ -2,6 +2,11 @@
 
 App Expo (SDK 54) em TypeScript com NativeWind, Axios e estrutura em `src/` (components, screens, services, hooks, theme, utils). Fluxo: onboarding (3 slides) → login/cadastro → dashboard com cartões de biomarcadores, botão flutuante “+” (modal) e bloco destacado para recomendações da IA.
 
+## Links (produção — Render)
+
+- **Web App (Front):** [https://health-dashboard-tecsagroup-front.onrender.com](https://health-dashboard-tecsagroup-front.onrender.com)
+- **API (Back):** [https://health-dashboard-tecsagroup-back.onrender.com](https://health-dashboard-tecsagroup-back.onrender.com) — base das chamadas Axios em produção: **`https://health-dashboard-tecsagroup-back.onrender.com/api`** (`EXPO_PUBLIC_API_URL` no build estático).
+
 ## Requisitos
 
 - Node.js **20.19.4+** recomendado (o template Expo 54 avisa se estiver abaixo).
