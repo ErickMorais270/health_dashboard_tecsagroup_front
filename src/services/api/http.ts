@@ -5,12 +5,25 @@ export const AUTH_TOKEN_KEY = 'healthdash.auth.token';
 export const AUTH_USER_KEY = 'healthdash.auth.user';
 export const ONBOARDING_KEY = 'healthdash.onboarding.done';
 
-/** Base da API (Laravel /api). Build web no Render: definir EXPO_PUBLIC_API_URL (ex.: https://….onrender.com/api). */
-export const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL ?? 'http://127.0.0.1:8000/api';
+/**
+ * Laravel expõe rotas sob o prefixo `/api`. Muitos configuram só a origem no Render
+ * (`https://….onrender.com`) — sem isso o Axios chamaria `/register` em vez de `/api/register`.
+ */
+export function normalizeApiBaseUrl(raw: string): string {
+  const trimmed = raw.trim().replace(/\/+$/, '');
+  if (trimmed.endsWith('/api')) {
+    return trimmed;
+  }
+  return `${trimmed}/api`;
+}
+
+/** Base da API (sempre termina em `/api`). No Render: pode ser só a origem HTTPS do back; o sufixo é aplicado aqui. */
+export const API_BASE_URL = normalizeApiBaseUrl(
+  process.env.EXPO_PUBLIC_API_URL ?? 'http://127.0.0.1:8000/api',
+);
 
 export const http = axios.create({
-  baseURL: API_BASE_URL.endsWith('/') ? API_BASE_URL.slice(0, -1) : API_BASE_URL,
+  baseURL: API_BASE_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',

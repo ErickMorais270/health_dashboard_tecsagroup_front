@@ -20,7 +20,7 @@ cp .env.example .env
 
 - **Emulador Android:** use `http://10.0.2.2:8000/api` em `EXPO_PUBLIC_API_URL`.
 - **Simulador iOS / web:** `http://127.0.0.1:8000/api` ou o IP da sua máquina na rede.
-- **Produção (Render / domínio público):** defina `EXPO_PUBLIC_API_URL` com a URL **HTTPS** do backend **incluindo** o sufixo `/api`, por exemplo `https://seu-backend.onrender.com/api` (valor é embutido no bundle no momento do **`npm run export:web`**).
+- **Produção (Render / domínio público):** defina `EXPO_PUBLIC_API_URL` como a origem **HTTPS** do Laravel, por exemplo `https://health-dashboard-tecsagroup-back.onrender.com` — o código **acrescenta `/api` automaticamente** se você não colocar (evita cadastro indo para `/register` em vez de `/api/register`). Pode também informar já com `/api` no final. O valor é embutido no bundle no **`npm run export:web`**.
 
 ## Suporte à Web
 
@@ -41,15 +41,15 @@ No painel Render: **New +** → **Static Site**. No monorepo, defina **Root Dire
 
 | Campo | Valor |
 |--------|--------|
-| **Build Command** | `npm ci && npm run export:web` |
+| **Build Command** | `npm ci && npm run export:web` (equivalente: `npx expo export -p web --output-dir dist`) |
 | **Publish directory** | `dist` |
-| **Environment** | `NODE_VERSION` = `20.19.4` (ou `22.x`); `EXPO_PUBLIC_API_URL` = URL pública do Laravel com `/api` |
+| **Environment** | `NODE_VERSION` = `20.19.4` (ou `22.x`); `EXPO_PUBLIC_API_URL` = `https://SEU-BACK.onrender.com` (com ou sem `/api`) |
 
 **Roteamento (SPA):** o app usa navegação no cliente. No serviço estático, abra **Redirects / Rewrites** e adicione uma regra **Rewrite**: origem `/*` → destino `/index.html` → **Rewrite** (ou equivalente na UI), para refreshes diretos não retornarem 404. Opcionalmente o build copia também `public/_redirects` (formato tipo Netlify) para `dist/`, caso a hospedagem a utilize.
 
 ### Chamada ao backend
 
-O Axios usa **`EXPO_PUBLIC_API_URL`** como `baseURL` (`src/services/api/http.ts`). Em produção deve ser a URL **HTTPS** do Laravel **com** `/api`, por exemplo: `https://health-dashboard-tecsagroup-back.onrender.com/api`.
+O Axios usa **`EXPO_PUBLIC_API_URL`** normalizada em `src/services/api/http.ts` (se faltar `/api` no final, é adicionado). Ex.: `EXPO_PUBLIC_API_URL=https://health-dashboard-tecsagroup-back.onrender.com` → chamadas vão para `…/api/register`, etc.
 
 ### Testar no navegador (Chrome)
 

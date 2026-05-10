@@ -6,7 +6,7 @@ const NETWORK_DEV_HINT =
   'Sem conexão com a API. Use a mesma Wi‑Fi do PC. Se o Laravel roda no WSL, a porta 8000 no IP do Windows (192.168.x.x) precisa ser encaminhada ao WSL (PowerShell admin: netsh interface portproxy) ou rode o PHP no Windows. Confira EXPO_PUBLIC_API_URL e firewall.';
 
 const NETWORK_PROD_HINT =
-  'Não foi possível alcançar a API. No painel do Render (Static Site), defina EXPO_PUBLIC_API_URL com a URL HTTPS do backend incluindo /api (ex.: https://health-dashboard-tecsagroup-back.onrender.com/api), salve e faça um novo deploy do front — esse valor entra no build. URL atual do app: ';
+  'Não foi possível alcançar a API. Confirme o backend no ar; no Laravel defina CORS_ALLOWED_ORIGINS com a origem exata do front; e, se mudou EXPO_PUBLIC_API_URL, faça redeploy do Static Site. Base usada pelo app: ';
 
 function isLikelyLocalApiBase(url: string): boolean {
   return (
