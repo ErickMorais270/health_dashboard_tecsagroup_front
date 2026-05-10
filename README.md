@@ -6,6 +6,7 @@ App Expo (SDK 54) em TypeScript com NativeWind, Axios e estrutura em `src/` (com
 
 - **Web App (Front):** [https://health-dashboard-tecsagroup-front.onrender.com](https://health-dashboard-tecsagroup-front.onrender.com)
 - **API (Back):** [https://health-dashboard-tecsagroup-back.onrender.com](https://health-dashboard-tecsagroup-back.onrender.com) — base das chamadas Axios em produção: **`https://health-dashboard-tecsagroup-back.onrender.com/api`** (`EXPO_PUBLIC_API_URL` no build estático).
+- **Demo em vídeo (Loom):** [https://www.loom.com/share/376a7a7c76a844d284091b2ad006323a](https://www.loom.com/share/376a7a7c76a844d284091b2ad006323a)
 
 ## Requisitos
 
