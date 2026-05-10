@@ -15,6 +15,32 @@ cp .env.example .env
 
 - **Emulador Android:** use `http://10.0.2.2:8000/api` em `EXPO_PUBLIC_API_URL`.
 - **Simulador iOS / web:** `http://127.0.0.1:8000/api` ou o IP da sua máquina na rede.
+- **Produção (Render / domínio público):** defina `EXPO_PUBLIC_API_URL` com a URL **HTTPS** do backend **incluindo** o sufixo `/api`, por exemplo `https://seu-backend.onrender.com/api` (valor é embutido no bundle no momento do **`npm run export:web`**).
+
+## Suporte à Web
+
+O projeto já usa **`react-dom`** e **`react-native-web`**. Para alinhar com o Expo SDK 54 há também **`@expo/metro-runtime`** (instalado com `expo install`).
+
+Gerar pasta estática para hospedar no navegador (Expo 54 usa **`dist`**, não mais `web-build`):
+
+```bash
+npm ci
+npm run export:web
+```
+
+Confira se aparece **`dist/`** com `index.html` e `_expo/`.
+
+## Deploy no Render (Static Site)
+
+No painel Render: **New +** → **Static Site**. No monorepo, defina **Root Directory** = `health_dashboard_tecsagroup_front`.
+
+| Campo | Valor |
+|--------|--------|
+| **Build Command** | `npm ci && npm run export:web` |
+| **Publish directory** | `dist` |
+| **Environment** | `NODE_VERSION` = `20.19.4` (ou `22.x`); `EXPO_PUBLIC_API_URL` = URL pública do Laravel com `/api` |
+
+**Roteamento (SPA):** o app usa navegação no cliente. No serviço estático, abra **Redirects / Rewrites** e adicione uma regra **Rewrite**: origem `/*` → destino `/index.html` → **Rewrite** (ou equivalente na UI), para refreshes diretos não retornarem 404. Opcionalmente o build copia também `public/_redirects` (formato tipo Netlify) para `dist/`, caso a hospedagem a utilize.
 
 ## Comandos
 
